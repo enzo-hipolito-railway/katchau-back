@@ -1,0 +1,80 @@
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "nome": "{{nome}}",
+    "email": "{{email}}",
+    "senha": "{{senha}}",
+    "cpf": "{{cpf}}"
+}
+
+### Listar enderecos para escolha no checkout
+GET http://localhost:3000/endereco/listar
+Authorization: Bearer {{token}}
+
+### Criar checkout (requer token)
+POST http://localhost:3000/pedido/checkout
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "endereco_id": {{enderecoId}},
+    "cupom_codigo": "{{cupomCodigo}}",
+    "itens": [
+        {"produto_id": {{produtoId}}, "quantidade": {{quantidade}}}
+    ]
+}
+
+### Cadastrar cupom percentual (requer token ADMIN)
+POST http://localhost:3000/cupom/cadastrar
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "codigo": "{{cupomCodigo}}",
+    "percentual": {{percentual}},
+    "limite_usos": {{limiteUsos}},
+    "expira_em": "{{expiraEm}}"
+}
+
+### Confirmar pedido e baixar estoque (requer token ADMIN)
+PATCH http://localhost:3000/pedido/confirmar/{{pedidoId}}
+Authorization: Bearer {{token}}
+
+### Concluir pedido depois da entrega (requer token ADMIN)
+PATCH http://localhost:3000/pedido/concluir/{{pedidoId}}
+Authorization: Bearer {{token}}
+
+### Cancelar pedido antes do envio (dono ou ADMIN)
+PATCH http://localhost:3000/pedido/cancelar/{{pedidoId}}
+Authorization: Bearer {{token}}
+
+### Meus pedidos
+GET http://localhost:3000/pedido/meus
+Authorization: Bearer {{token}}
+
+### Criar entrega para o endereco escolhido no checkout (ADMIN)
+POST http://localhost:3000/entrega/cadastrar
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "pedido_id": {{pedidoId}}
+}
+
+### Cadastrar produto com varias imagens (requer token ADMIN)
+POST http://localhost:3000/produto/cadastrar
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "codigo": "{{codigoProduto}}",
+    "nome": "{{nomeProduto}}",
+    "descricao": "{{descricaoProduto}}",
+    "preco": {{precoProduto}},
+    "categoria_id": {{categoriaId}},
+    "imagens": [
+        {"url": "{{urlImagem1}}", "ordem": 0},
+        {"url": "{{urlImagem2}}", "ordem": 1}
+    ]
+}
